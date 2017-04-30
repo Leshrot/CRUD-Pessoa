@@ -62,7 +62,7 @@ ini_set('display_errors', 1);
 				$this->Adm = $InputAdm;
 				$this->Cpf = $InputCpf;
 
-			header("Location:painel_list_user.php");
+			echo '<script>window.location="painel_list_user.php";</script>';
 			$stmt->close();
 			$db_conn->close();
 			return true; // Execução com sucesso
@@ -144,7 +144,7 @@ ini_set('display_errors', 1);
 			if($stmt->execute()) {
 				$stmt->close();
 				$db_conn->close();
-				header('location:painel_list_user.php');;
+				echo '<script>window.location="painel_list_user.php";</script>';
 			return true; // Execução com sucesso
 			}
 
@@ -168,7 +168,7 @@ ini_set('display_errors', 1);
 			if($stmt->execute()) {
 				$stmt->close();
 				$db_conn->close();
-				header("Location:painel_list_user.php");
+				echo '<script>window.location="painel_list_user.php";</script>';
 			return true; // Execução com sucesso
 			}
 

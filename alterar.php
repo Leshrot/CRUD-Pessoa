@@ -18,7 +18,19 @@ ini_set('display_errors', 1);
         $RG = $_POST['AltRG'];
         $Cpf = $_POST['AltCpf'];
         $Adm = isset($_POST['Adm']);
-	
-	$pessoa->update($Nome, $Telefone, $Endereco, $Salario, $Login, $Senha, $RG, $Cpf, $Adm, $Id);
+
+
+	        $query = "UPDATE Pessoa SET nm_nome = ?, cd_telefone = ?, ds_endereco = ?, vl_salario = ?, cd_login = ?, cd_senha = ?, cd_rg = ?, cd_cpf = ?, cd_adm = ? WHERE cd_pessoa = ?";
+
+            $stmt = $db_conn->prepare($query);
+
+            $stmt->bind_param("sisdssiiii", $Nome, $Telefone, $Endereco, $Salario, $Login, $Senha, $RG, $Cpf, $Adm, $Id);
+
+            if($stmt->execute()) {
+                $stmt->close();
+                $db_conn->close();
+                echo '<script>window.location="painel_list_user.php";</script>';
+            }
+        //$pessoa->update($Nome, $Telefone, $Endereco, $Salario, $Login, $Senha, $RG, $Cpf, $Adm, $Id);
     }
 ?>

@@ -4,13 +4,16 @@ $db_conn = mysqli_connect("localhost","root","","u573658764_papel")
             or
 die("Não foi possível conectar:" . mysqli_connect_errno());
 
-$Id = $_GET['cd_pessoa'];
-echo $Id;
+if(isset($_GET['cd_pessoa'])){
+    $Id = $_GET['cd_pessoa'];
+}
 
-$query = "SELECT cd_pessoa, nm_nome, cd_telefone, ds_endereco, vl_salario, cd_rg, cd_cpf, cd_adm FROM pessoa";
+$query = "SELECT cd_pessoa, nm_nome, cd_telefone, ds_endereco, vl_salario, cd_rg, cd_cpf, cd_adm FROM pessoa
+    where cd_pessoa = ?";
 $stmt = $db_conn->prepare($query);
+$stmt->bind_param("i", $id);
 $stmt->execute();
-$stmt->bind_result($cd_pessoa, $nm_nome, $cd_telefone, $ds_endereco, $vl_salario, $cd_rg, $cd_cpf, $cd_adm);
+$stmt->bind_result($Id, $nm_nome, $cd_telefone, $ds_endereco, $vl_salario, $cd_rg, $cd_cpf, $cd_adm);
 
 // EXIBE PESSOA
 while($stmt->fetch()) {
@@ -28,18 +31,18 @@ while($stmt->fetch()) {
 
         <div class="modal-body">
 
-        <form action="alterar.php" name="UpdatePessoa" id="UpdatePessoa" method='post'>
+        <form name="UpdatePessoa" id="UpdatePessoa" method='post'>
             <div class="row Pessoa">
                 <div class="col-md-6">
 
-                    <input type="hidden" name="AltId" value="<?php $Id ?>" required />
+                    <input type="hidden" name="AltId" value="<?= $Id ?>" required />
                     
                     <div class="form-group">
                         <input type="text" 
                         class="form-control input-lg" 
                         placeholder="Nome" 
                         name="AltNome"
-                        value="<?php $nm_nome ?>"
+                        value="<?= $nm_nome ?>"
                         required />
                     </div>
 
@@ -48,7 +51,7 @@ while($stmt->fetch()) {
                         class="form-control input-lg"
                         placeholder="RG" 
                         name="AltRG"
-                        value="<?php $cd_rg ?>"
+                        value="<?= $cd_rg ?>"
                         required />
                     </div>
 
@@ -56,7 +59,7 @@ while($stmt->fetch()) {
                         <input type="text" 
                         class="form-control input-lg" 
                         placeholder="CPF" name="AltCpf"
-                        value="<?php $cd_cpf ?>"
+                        value="<?= $cd_cpf ?>"
                         required />
 
                     </div>
@@ -65,7 +68,7 @@ while($stmt->fetch()) {
                         class="form-control input-lg"
                         placeholder="Telefone"
                         name="AltTelefone" 
-                        value="<?php $cd_telefone ?>"/>
+                        value="<?= $cd_telefone ?>"/>
                     </div>
                     <div class="form-group">
                         <input type="text"
@@ -78,7 +81,7 @@ while($stmt->fetch()) {
                         class="form-control input-lg"
                         placeholder="Salario"
                         name="AltSalario" 
-                        value="<?php $vl_salario?>" />
+                        value="<?= $vl_salario?>" />
                     </div>
 
                     <div class="form-group">
@@ -101,7 +104,7 @@ while($stmt->fetch()) {
 
                     <div class="checkbox">
                         <label>
-                            <input type="checkbox" name="AltAdm" value="<?php $cd_adm ?>">Administrador
+                            <input type="checkbox" name="AltAdm" value="<?= $cd_adm ?>">Administrador
                         </label>
                     </div>
 
@@ -111,7 +114,9 @@ while($stmt->fetch()) {
 
         </form>
 
-        <?php } ?>
+        <?php }
+        include("alterar.php");
+        ?>
         </div>
     </div>
     </div>

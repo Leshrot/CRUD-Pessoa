@@ -66,7 +66,14 @@ session_start();
       ?>
 
     </div>
-    
+
+    <div class="modal fade" id="myModal2"  role="dialog">
+      <div class="modal-dialog">
+        <div class="modal-content">
+        </div>
+      </div>
+    </div>
+
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
     <script src="js/bootstrap.min.js"></script>
     <script src="js/main.js"></script>
@@ -77,10 +84,10 @@ session_start();
     $('.modalLink').click(function(){
         var cd_pessoa= $(this).attr('data-id');
         $.ajax({
-          url:"update_modal?cd_pessoa="+cd_pessoa,
+          url:"update_modal.php?cd_pessoa="+cd_pessoa,
           cache:false,
           success:function(result){
-            $(".modal-content").html(result);
+            $("#mymodal2").html(result);
         }});
     });
     </script>
