@@ -1,14 +1,12 @@
-<!-- ERACAO DE USUARIO -->
 <div class="modal fade" id="myModal"  role="dialog">
     <div class="modal-dialog">
     <div class="modal-content">
-
 
     <div class="modal-header">
     <button type="button" class="close" data-dismiss="modal">&times;</button>
         <h4 class="modal-title">Criar Usuário</h4>
     </div>
-
+<!-- CRIAÇAO DE USUARIO -->
         <div class="modal-body">
 
         <form name="CreatePessoa" id="CreatePessoa" method='post'>
@@ -57,7 +55,7 @@
                     <div class="form-group">
                         <input type="text"
                         id="inputText"
-                        class="form-controlinput-lg"
+                        class="form-control input-lg"
                         placeholder="Login"
                         name="Login"
                         required />

@@ -62,12 +62,11 @@ session_start();
         <!-- Modals -->
       <?php
       include("create_modal.php");
-      include("update_modal.php")
+      include("update_modal.php");
       ?>
-
     </div>
 
-    <div class="modal fade" id="myModal2"  role="dialog">
+    <div class="modal fade" id="myModal2" role="dialog">
       <div class="modal-dialog">
         <div class="modal-content">
         </div>
@@ -79,7 +78,7 @@ session_start();
     <script src="js/main.js"></script>
 
 
-    <!-- AJAX ALTERACAO --> 
+    <!-- AJAX UPDATE --> 
     <script type="text/javascript">
     $('.modalLink').click(function(){
         var cd_pessoa= $(this).attr('data-id');
@@ -87,12 +86,13 @@ session_start();
           url:"update_modal.php?cd_pessoa="+cd_pessoa,
           cache:false,
           success:function(result){
-            $("#mymodal2").html(result);
-        }});
+            $("#myModal2").html(result);
+            $("#myModal2").modal("show");
+          }});
     });
     </script>
 
-    <!-- Javascript popup modal Delete--> 
+    <!-- JAVASCRIPT DELETE--> 
     <script type="text/javascript">
         function confirm_modal(delete_url)
         {

@@ -11,13 +11,13 @@ ini_set('display_errors', 1);
        	       <tr>");
       printf("<th>ID</th>");
       printf("<th>Nome</th>");
-      printf("<th>Telefone</th>");
-      printf("<th>Endereço</th>");
-      printf("<th>Salário</th>");
       printf("<th>RG</th>");
       printf("<th>CPF</th>");
-      printf("<th>Admin</th>");
-      printf("<th>Comandos</th>");
+      printf("<th>TELEFONE</th>");
+      printf("<th>ENDEREÇO</th>");
+      printf("<th>SALARIO</th>");
+      printf("<th>ADMIN</th>");
+      printf("<th>COMANDOS</th>");
       printf("</tr>");
 
     # EXIBINDO LINHAS DA TABELA
