@@ -42,9 +42,7 @@ ini_set('display_errors', 1);
 		// INSERE TODAS AS COLUNAS DA TABELA PESSOA
 		public function insert($InputNome, $InputTelefone, $InputEndereco, $InputSalario, $InputLogin, $InputSenha, $InputRG, $InputCpf, $InputAdm){
 
-			$db_conn = mysqli_connect("localhost","root","","u573658764_papel") 
-			or
-			die("Não foi possível conectar:" . mysqli_connect_errno());
+			include("dbconnect.php");
 
 			$query = "INSERT INTO pessoa (nm_nome, cd_telefone, ds_endereco, vl_salario, cd_login, cd_senha, cd_rg, cd_cpf, cd_adm) VALUES (?,?,?,?,?,?,?,?,?)";
 
@@ -67,8 +65,8 @@ ini_set('display_errors', 1);
 			$db_conn->close();
 			return true; // Execução com sucesso
 			}
-		$stmt->error;
-		$stmt->errno;
+		print_r($stmt->error);
+		print_r($stmt->errno);
 		$stmt->close();
 		$db_conn->close();
         return false; // Erro na execução
@@ -79,16 +77,18 @@ ini_set('display_errors', 1);
 		// CONSULTA E EXIBE TODAS AS LINHAS DA TABELA PESSOA 
         public function select(){
 
+			include("dbconnect.php");
+
         	$db_conn = mysqli_connect("localhost","root","","u573658764_papel") 
         	or
         	die("Não foi possível conectar:" . mysqli_connect_errno());
 
-        	$query = "SELECT cd_pessoa, nm_nome, cd_telefone, ds_endereco, vl_salario, cd_rg, cd_cpf, cd_adm FROM pessoa";
+        	$query = "SELECT cd_pessoa, nm_nome, cd_rg, cd_cpf, cd_telefone, ds_endereco, vl_salario, cd_adm FROM pessoa";
 
 
         	$stmt = $db_conn->prepare($query);
         	if($stmt->execute()) {
-        		$stmt->bind_result($cd_pessoa, $nm_nome, $cd_telefone, $ds_endereco, $vl_salario, $cd_rg, $cd_cpf, $cd_adm);
+        		$stmt->bind_result($cd_pessoa, $nm_nome, $cd_rg, $cd_cpf, $cd_telefone, $ds_endereco, $vl_salario, $cd_adm);
 
 				// EXIBE PESSOA
         		while($stmt->fetch()) {
@@ -98,21 +98,21 @@ ini_set('display_errors', 1);
         				. "</td><td>" . 
         				$nm_nome
         				. "</td><td>" . 
+        				$cd_rg
+        				. "</td><td>" . 
+        				$cd_cpf
+        				. "</td><td>" . 
         				$cd_telefone
         				. "</td><td>" . 
         				$ds_endereco
-        				. "</td><td>" . 
-        				$vl_salario
-        				. "</td><td>" . 
-        				$cd_rg
         				. "</td><td>" .
-        				$cd_cpf
+        				$vl_salario
         				. "</td><td>" .
         				$cd_adm
         				. "</td><td>" .
         				"<button> APAGAR </button>"
         				. " | " .
-        				"<button href='#MyModal2' data-id=".$cd_pessoa." data-toggle='modal' data-target='#myModal2' class='modalLink'> ALTERAR </button>"
+        				"<button href='#myModal2' data-id=".$cd_pessoa." data-toggle='modal' data-target='#myModal2' class='modalLink'> ALTERAR </button>"
         				);
         			printf("<tr>");
         			}
@@ -131,9 +131,7 @@ ini_set('display_errors', 1);
 		// ALTERA DADOS DA LINHA SELECIONADA
 	public function update($InputNome, $InputTelefone, $InputEndereco, $InputSalario, $InputLogin, $InputSenha, $InputRG, $InputCpf, $InputAdm, $Id){
 
-			$db_conn = mysqli_connect("localhost","root","","u573658764_papel") 
-			or
-			die("Não foi possível conectar:" . mysqli_connect_errno());
+			include("dbconnect.php");
 
 			$query = "UPDATE Pessoa SET nm_nome = ?, cd_telefone = ?, ds_endereco = ?, vl_salario = ?, cd_login = ?, cd_senha = ?, cd_rg = ?, cd_cpf = ?, cd_adm = ? WHERE cd_pessoa = ?";
 
@@ -152,14 +150,13 @@ ini_set('display_errors', 1);
 		$stmt->errno;
 		$stmt->close();
 		$db_conn->close();
+		echo "A alteração falhou";
 		return false; // Erro na execução
 		}
 
 	public function delete($Id){
 
-			$db_conn = mysqli_connect("localhost","root","","u573658764_papel") 
-			or
-			die("Não foi possível conectar:" . mysqli_connect_errno());
+			include("dbconnect.php");
 
 			$query = "DELETE FROM pessoa WHERE cd_pessoa = ?";
 			$stmt = $db_conn->prepare($query);
