@@ -19,6 +19,6 @@ ini_set('display_errors', 1);
         $Cpf = $_POST['AltCpf'];
         $Adm = isset($_POST['AltAdm']);
         
-        $pessoa->update($Nome, $Telefone, $Endereco, $Salario, $Login, $Senha, $RG, $Cpf, $Adm, $Id);
+    $pessoa->update($Nome, $Telefone, $Endereco, $Salario, $Login, $Senha, $RG, $Cpf, $Adm, $Id);
     }
 ?>

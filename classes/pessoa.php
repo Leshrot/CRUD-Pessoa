@@ -110,9 +110,9 @@ ini_set('display_errors', 1);
         				. "</td><td>" .
         				$cd_adm
         				. "</td><td>" .
-        				"<button> APAGAR </button>"
+        				"<button onclick="."confirm_modal('deletar.php?cd_pessoa=".$cd_pessoa."')> APAGAR </button>"
         				. " | " .
-        				"<button href='#myModal2' data-id=".$cd_pessoa." data-toggle='modal' data-target='#myModal2' class='modalLink'> ALTERAR </button>"
+        				"<button href='#update_modal' data-id=".$cd_pessoa." data-toggle='modal' data-target='#update_modal' class='modalLink'> ALTERAR </button>"
         				);
         			printf("<tr>");
         			}
