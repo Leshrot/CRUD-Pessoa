@@ -5,7 +5,10 @@ ini_set('display_errors', 1);
     # INSTANCIANDO PESSOA
     require_once("classes/pessoa.php");
     $pessoa = new pessoa();
-    
+    # INSTANCIANDO FORNECEDOR
+    require_once("classes/fornecedor.php");
+    $fornecedor = new fornecedor();
+
     # RECEBENDO VALORES DO FORMULARIO 
 	if (isset($_POST["UpdateUser"])) {
         $Id = $_POST['AltId'];
@@ -21,4 +24,19 @@ ini_set('display_errors', 1);
         
     $pessoa->update($Nome, $Telefone, $Endereco, $Salario, $Login, $Senha, $RG, $Cpf, $Adm, $Id);
     }
+
+     # RECEBENDO VALORES DO FORMULÁRIO USUARIO
+    if (isset($_POST["UpdateForn"])) { 
+        $Id = $_POST['AltId'];
+        $NomeForn = $_POST['AltNome'];
+        $CnpjForn = $_POST['AltCNPJ'];
+        $EnderecoForn = $_POST['AltEndereco'];
+        $TelForn = $_POST['AltTelefone'];
+        $EmailForn = $_POST['AltEmail'];
+    }
+
+    if (isset($CnpjForn)){
+    $fornecedor->update($CnpjForn, $NomeForn, $EnderecoForn, $TelForn, $EmailForn, $Id);
+    }
+
 ?>

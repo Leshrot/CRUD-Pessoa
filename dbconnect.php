@@ -2,9 +2,9 @@
 
 # VARIAVEIS DE CONEXÃO
 $mysql_host = "localhost";
-$mysql_user = "root";
-$mysql_pass = "";
-$mysql_db   = "u573658764_papel";
+$mysql_user = "id1486613_u573658764_dsa";
+$mysql_pass = "labes123";
+$mysql_db   = "id1486613_u573658764_papel";
 $time_zone 	= "America/Sao_Paulo";
 
 # CONEXÃO INICIADA

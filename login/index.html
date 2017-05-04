@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Login</title>
+    <link href='http://fonts.googleapis.com/css?family=Lato&subset=latin,latin-ext' rel='stylesheet' type='text/css'>
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+      <link rel="stylesheet" href="css/font-awesome.min.css">
+    <link href="css/estilo.css" rel="stylesheet">
+      
+      
+  </head>
+    
+  <body class="imgfull"> 
+    
+    <div class="container-fluid formalign">
+    <div class="row-fluid">
+        <div class="col-xs-4">
+            
+        </div>
+        <div class="col-xs-8">            
+            <img class="img-responsive" src="imgs/logo.png" alt="Logo">    
+                
+            <div class="form-login">
+                <h2>Efetue Login</h2>
+                <form action='validar.php' method='post'>
+                    <label class="sr-only" for="inputText">Login:</label>
+                    <input type="text" id="inputText" name="Login" class="form-control input-lg" placeholder="Seu Login" required/>
+
+                    <label class="sr-only" for="inputPass">E-mail:</label>
+                    <input type="password" id="inputPass" name="Password" class="form-control input-lg" placeholder="Sua Senha" required/>
+
+                    <div class="checkbox">
+                        <label>
+                            <input type="checkbox" value="s"/>Lembre-me
+                        </label>
+                    </div>
+
+                    <button type="submit" name="Logar" class="btn btn-primary btn-lg btn-block" value="Acessar">
+                        <span class="glyphicon glyphicon-ok"></span> Acessar
+                    </button>
+                </form>
+            </div>
+            </div>
+        </div>  
+    </div>
+
+
+      
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/main.js"></script>js
+
+  </body>
+</html>

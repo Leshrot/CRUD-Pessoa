@@ -88,3 +88,25 @@ th {
 .conteudo_painel_int{
     padding: 12px;
 }
+
+.contact .error:focus,
+.contact .error {
+    border: 1px solid #ff0000;
+}
+
+.contact label.error {
+    color: #fff;
+    font-size: 14px;
+    line-height: 18px;
+    font-weight: normal;
+    position: absolute;
+    right: 0;
+    text-transform: none;
+    top: -28px;
+    border: none;
+    background-color: #FF0000;
+    padding: 4px;
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    border-radius: 4px;
+}

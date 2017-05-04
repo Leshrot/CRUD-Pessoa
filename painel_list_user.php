@@ -61,13 +61,13 @@ session_start();
     <div class="container">        
         <!-- Modals -->
       <?php
-      include("usermodal/create_modal.php");
-      include("usermodal/update_modal.php");
+      include("usermodal/create_user.php");
+      include("usermodal/update_user.php");
       include("usermodal/delete_modal.php");
       ?>
     </div>
 
-    <div class="modal fade" id="update_modal" role="dialog">
+    <div class="modal fade" id="update_user" role="dialog">
       <div class="modal-dialog">
         <div class="modal-content">
         </div>
@@ -77,18 +77,18 @@ session_start();
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
     <script src="js/bootstrap.min.js"></script>
     <script src="js/main.js"></script>
-
+    <script src="jquery.validate.min.js"></script>
 
     <!-- AJAX UPDATE --> 
     <script type="text/javascript">
     $('.modalLink').click(function(){
         var cd_pessoa= $(this).attr('data-id');
         $.ajax({
-          url:"usermodal/update_modal.php?cd_pessoa="+cd_pessoa,
+          url:"usermodal/update_user.php?cd_pessoa="+cd_pessoa,
           cache:false,
           success:function(result){
-            $("#update_modal").html(result);
-            $("#update_modal").modal("show");
+            $("#update_user").html(result);
+            $("#update_user").modal("show");
           }});
     });
     </script>
@@ -97,10 +97,14 @@ session_start();
     <script type="text/javascript">
         function confirm_modal(delete_url)
         {
-          $('#delete_modal').modal('show', {backdrop: 'static'});
+          $('#delete_user').modal('show', {backdrop: 'static'});
           document.getElementById('delete_link').setAttribute('href', delete_url);
         }
     </script>
+
+    <script type="text/javascript">
+    </script>
+
 
   </body>
 </html>

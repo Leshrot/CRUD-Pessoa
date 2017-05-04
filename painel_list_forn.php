@@ -48,45 +48,61 @@ session_start();
           </ul>          
         </div><!-- /.navbar-collapse -->
       </div><!-- /.container-fluid -->
-    </nav>
-      
+    </nav> 
     <?php
     include("menu.php");
     ?>
-            <div class="col-sm-9">
-
-            <?php 
-            include("auth.php");
-            ?>
-                    
-            </div>
+      <div class="col-sm-9">
+        <?php
+        include("listar.php");
+        ?>          
+      </div>
     </div>
     <div class="container">        
-        <!-- Modal -->
-                <?php
-                include("usermodal/create_user.php");
-                include("fornmodal/create_modal.php");
-                ?>
+        <!-- Modals -->
+      <?php
+      include("fornmodal/create_forn.php");
+      include("fornmodal/update_forn.php");
+      include("fornmodal/delete_forn.php");
+      ?>
+    </div>
+
+    <div class="modal fade" id="update_forn" role="dialog">
+      <div class="modal-dialog">
+        <div class="modal-content">
+        </div>
+      </div>
+    </div>
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
     <script src="js/bootstrap.min.js"></script>
     <script src="js/main.js"></script>
-    <script language="javascript" type="text/javascript">
-    // Exibe confirmação delete
-    function confirmarDelete(id) {
-    var verificar = confirm('Você realmente deseja excluir este usuário?');
-    if (verificar){
-        location.href = 'deletar.php?cd_pessoa='+ id;
-        } else {
-        alert('Quase deletou o usuário errado mané.');
-        }    
-    }
+    <script src="jquery.validate.min.js"></script>
 
-    // Envia dado pro modal
-    function alterar(id) {
-        location.href = 'deletar.php?cd_pessoa='+ id;
-    }
+    <!-- AJAX UPDATE --> 
+    <script type="text/javascript">
+    $('.modalLink').click(function(){
+        var cd_forn= $(this).attr('data-id');
+        $.ajax({
+          url:"fornmodal/update_forn.php?cd_forn="+cd_forn,
+          cache:false,
+          success:function(result){
+            $("#update_forn").html(result);
+            $("#update_forn").modal("show");
+          }});
+    });
+    </script>
 
+    <!-- JAVASCRIPT DELETE -->
+    <script type="text/javascript">
+        function confirm_modal(delete_url)
+        {
+          $('#delete_forn').modal('show', {backdrop: 'static'});
+          document.getElementById('delete_link').setAttribute('href', delete_url);
+        }
+    </script>
+
+    <script type="text/javascript">
     </script>
 
 
