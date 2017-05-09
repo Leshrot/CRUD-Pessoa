@@ -21,23 +21,27 @@
 
 
 <body>
-<?php 
+<?php
+
 include("modalincludes.php");
-include("fornmodal/update_forn.php");
-include("fornmodal/delete_forn.php");
+include("prodmodal/update_prod.php");
+include("prodmodal/delete_prod.php");
 
 include("view/navbar.php"); 
 include("view/menu.php"); 
 include("view/content.php");
 
 ?>
-    <div class="modal fade" id="update_forn" style="margin-top:50px;" role="dialog">
+    <div class="modal fade" id="update_prod" style="margin-top:50px;" role="dialog">
       <div class="modal-dialog">
         <div class="modal-content">
         </div>
       </div>
     </div>
-  
+
+    <div class="modal fade" id="view_prod" style="margin-top:50px;" role="dialog">
+        <?php include("prodmodal/view_prod.php"); ?>
+    </div>
 
   <script src='http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>
   <script src="js/bootstrap.min.js"></script>
@@ -46,25 +50,39 @@ include("view/content.php");
   <script src='http://cdnjs.cloudflare.com/ajax/libs/morris.js/0.5.1/morris.min.js'></script>
 
 
-    <!-- AJAX UPDATE --> 
+      <!-- AJAX UPDATE --> 
     <script type="text/javascript">
     $('.modalLink').click(function(){
-        var cd_forn= $(this).attr('data-id');
+        var cd_produto= $(this).attr('data-id');
         $.ajax({
-          url:"fornmodal/update_forn.php?cd_forn="+cd_forn,
+          url:"prodmodal/update_prod.php?cd_produto=" + cd_produto,
           cache:false,
-          success:function(result){
-            $("#update_forn").html(result);
-            $("#update_forn").modal("show");
+          success: function(result){
+            $("#update_prod").html(result);
+            $("#update_prod").modal("show");
           }});
     });
     </script>
 
-    <!-- JAVASCRIPT DELETE -->
+    <!-- AJAX VIEW --> 
+    <script type="text/javascript">
+    $('.modalView').click(function(){
+        var cd_produto= $(this).attr('data-id');
+        $.ajax({
+          url:"prodmodal/view_prod.php?cd_produto=" + cd_produto,
+          cache:false,
+          success: function(result){
+            $("#view_prod").html(result);
+            $("#view_prod").modal("show");
+          }});
+    });
+    </script>
+
+    <!-- JAVASCRIPT DELETE--> 
     <script type="text/javascript">
         function confirm_modal(delete_url)
         {
-          $('#delete_forn').modal('show', {backdrop: 'static'});
+          $('#delete_prod').modal('show', {backdrop: 'static'});
           document.getElementById('delete_link').setAttribute('href', delete_url);
         }
     </script>

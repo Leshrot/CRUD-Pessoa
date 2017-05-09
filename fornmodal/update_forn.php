@@ -12,7 +12,7 @@ $query = "SELECT * FROM Fornecedor
 $stmt = $db_conn->prepare($query);
 $stmt->bind_param("i", $Id);
 $stmt->execute();
-$stmt->bind_result($cd_forn, $cnpj_forn, $nome_forn, $endereco_forn, $tel_forn, $email_forn);
+$stmt->bind_result($cd_produto, $nm_produto, $cd_codbarra, $ds_produto, $qt_produto, $vl_produto, $ds_categoria);
 
 // EXIBE PESSOA
 while($stmt->fetch()) {

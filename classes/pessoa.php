@@ -39,7 +39,6 @@ ini_set('display_errors', 1);
 		}
 
 
-		// INSERE TODAS AS COLUNAS DA TABELA PESSOA
 		public function insert($InputNome, $InputTelefone, $InputEndereco, $InputSalario, $InputLogin, $InputSenha, $InputRG, $InputCpf, $InputAdm){
 
 			include("dbconnect.php");
@@ -60,7 +59,7 @@ ini_set('display_errors', 1);
 				$this->Adm = $InputAdm;
 				$this->Cpf = $InputCpf;
 
-			echo '<script>window.location="painel_list_user.php?lista=1";</script>';
+			echo '<script>window.location="painel_list_user.php?lista=1&pagina=1";</script>';
 			$stmt->close();
 			$db_conn->close();
 			return true; // Execução com sucesso
@@ -72,17 +71,113 @@ ini_set('display_errors', 1);
         return false; // Falha na execução
         }
 
-
-
-		// CONSULTA E EXIBE TODAS AS LINHAS DA TABELA PESSOA 
-        public function select(){
+        public function getNumrows($Id, $Nome, $Cpf){
 
 			include("dbconnect.php");
 
-        	$query = "SELECT cd_pessoa, nm_nome, cd_rg, cd_cpf, cd_telefone, ds_endereco, vl_salario, cd_adm FROM Pessoa";
-
+        	$query = "SELECT cd_pessoa, nm_nome, cd_rg, cd_cpf, cd_telefone, ds_endereco, vl_salario, cd_adm FROM Pessoa 
+        	WHERE cd_pessoa LIKE ? OR
+        	      nm_nome LIKE ? OR
+        	      cd_cpf LIKE ?
+        	";
 
         	$stmt = $db_conn->prepare($query);
+        	$stmt->bind_param("isi", $Id, $Nome, $Cpf);
+        	if($stmt->execute()) {
+        		$stmt->bind_result($cd_pessoa, $nm_nome, $cd_rg, $cd_cpf, $cd_telefone, $ds_endereco, $vl_salario, $cd_adm);
+
+        	while($stmt->fetch()) {
+        	}
+
+        	$numrows = $stmt->num_rows;
+			return $numrows; // Execução com sucesso
+			}
+		$stmt->error;
+		$stmt->errno;
+		$stmt->close();
+		$db_conn->close();
+		return false; // Falha na execução
+		}
+
+
+        public function search($Id, $Nome, $Cpf){
+
+        	include("dbconnect.php");
+
+        	$query = "SELECT cd_pessoa, nm_nome, cd_rg, cd_cpf, cd_telefone, ds_endereco, vl_salario, cd_adm FROM Pessoa 
+        	WHERE cd_pessoa LIKE ? OR
+        	      nm_nome LIKE ? OR
+        	      cd_cpf LIKE ?
+        	";
+
+        	$stmt = $db_conn->prepare($query);
+        	$stmt->bind_param("isi", $Id, $Nome, $Cpf);
+        	if($stmt->execute()) {
+        		$stmt->bind_result($cd_pessoa, $nm_nome, $cd_rg, $cd_cpf, $cd_telefone, $ds_endereco, $vl_salario, $cd_adm);
+
+
+        			while($stmt->fetch()) {
+        			printf("<tr>");
+        			printf("<td>" .
+        				$cd_pessoa
+        				. "</td><td>" . 
+        				$nm_nome
+        				. "</td><td>" . 
+        				$cd_rg
+        				. "</td><td>" . 
+        				$cd_cpf
+        				. "</td><td>" . 
+        				$cd_telefone
+        				. "</td><td>" . 
+        				$ds_endereco
+        				. "</td><td>" .
+        				$vl_salario
+        				. "</td><td>" .
+        				$cd_adm
+        				. "</td><td>" .
+        				"<a class='btn btn-success modalLink' href='#update_user' data-id=".$cd_pessoa." data-toggle='modal' data-target='#update_user'><em class='fa fa-pencil'></em></a>
+        				<a class='btn btn-danger' onclick="."confirm_modal('deletar.php?cd_pessoa=".$cd_pessoa."')><em class='fa fa-trash'></em></a>
+        				<a class='btn btn-info'><em class='fa fa-eye' aria-hidden='true'></em></a>");
+        			printf("</td>");
+        			printf("</tr>");
+        			}
+        	$stmt->close();
+        	$db_conn->close();
+			return true; // Execução com sucesso
+			}
+		$stmt->error;
+		$stmt->errno;
+		$stmt->close();
+		$db_conn->close();
+		return false; // Falha na execução
+		}
+
+
+        public function pageselect($Pagina){
+        	
+        	if($Pagina == 1) {
+        		$this->select(0, 20);
+        	} elseif($Pagina == 2) {
+        		$this->select(20, 40);
+        	} elseif($Pagina == 3) {
+        		$this->select(40, 60);
+			} elseif($Pagina == 4) {
+				$this->select(60, 80);
+			} elseif($Pagina == 5) {
+				$this->select(80, 100);
+			} elseif($Pagina == 6) {
+				$this->select(100, 120);
+			}
+        }
+
+        public function select($offset, $limit){
+
+			include("dbconnect.php");
+
+        	$query = "SELECT cd_pessoa, nm_nome, cd_rg, cd_cpf, cd_telefone, ds_endereco, vl_salario, cd_adm FROM Pessoa LIMIT ?, ?";
+
+        	$stmt = $db_conn->prepare($query);
+        	$stmt->bind_param("ii", $offset, $limit);
         	if($stmt->execute()) {
         		$stmt->bind_result($cd_pessoa, $nm_nome, $cd_rg, $cd_cpf, $cd_telefone, $ds_endereco, $vl_salario, $cd_adm);
 
@@ -106,11 +201,11 @@ ini_set('display_errors', 1);
         				. "</td><td>" .
         				$cd_adm
         				. "</td><td>" .
-        				"<button onclick="."confirm_modal('deletar.php?cd_pessoa=".$cd_pessoa."')> APAGAR </button>"
-        				. " | " .
-        				"<button href='#update_user' data-id=".$cd_pessoa." data-toggle='modal' data-target='#update_user' class='modalLink'> ALTERAR </button>"
-        				);
-        			printf("<tr>");
+        				"<a class='btn btn-success modalLink' href='#update_user' data-id=".$cd_pessoa." data-toggle='modal' data-target='#update_user'><em class='fa fa-pencil'></em></a>
+        				<a class='btn btn-danger' onclick="."confirm_modal('deletar.php?cd_pessoa=".$cd_pessoa."')><em class='fa fa-trash'></em></a>
+        				<a class='btn btn-info'><em class='fa fa-eye' aria-hidden='true'></em></a>");
+        			printf("</td>");
+        			printf("</tr>");
         			}
         	$stmt->close();
         	$db_conn->close();
@@ -124,8 +219,7 @@ ini_set('display_errors', 1);
 		}
 
 
-		// ALTERA DADOS DA LINHA SELECIONADA
-	public function update($InputNome, $InputTelefone, $InputEndereco, $InputSalario, $InputLogin, $InputSenha, $InputRG, $InputCpf, $InputAdm, $Id){
+		public function update($InputNome, $InputTelefone, $InputEndereco, $InputSalario, $InputLogin, $InputSenha, $InputRG, $InputCpf, $InputAdm, $Id){
 
 			include("dbconnect.php");
 
@@ -136,12 +230,11 @@ ini_set('display_errors', 1);
 			$stmt->bind_param("sisdssiiii", $InputNome, $InputTelefone, $InputEndereco, $InputSalario, $InputLogin, $InputSenha, $InputRG, $InputCpf, $InputAdm, $Id);
 
 			if($stmt->execute()) {
-				$stmt->close();
-				$db_conn->close();
-				echo '<script>window.location="painel_list_user.php?lista=1";</script>';
+			$stmt->close();
+			$db_conn->close();
+			echo '<script>window.location="painel_list_user.php?lista=1&pagina=1";</script>';
 			return true; // Execução com sucesso
 			}
-
 		$stmt->error;
 		$stmt->errno;
 		$stmt->close();
@@ -150,21 +243,22 @@ ini_set('display_errors', 1);
 		return false; // Falha na execução
 		}
 
-	public function delete($Id){
+
+		public function delete($Id){
 
 			include("dbconnect.php");
 
 			$query = "DELETE FROM Pessoa WHERE cd_pessoa = ?";
+
 			$stmt = $db_conn->prepare($query);
 			$stmt->bind_param("i", $Id);
 
-				if($stmt->execute()) {
-					$stmt->close();
-					$db_conn->close();
-					echo '<script>window.location="painel_list_user.php?lista=1";</script>';
-				return true; // Execução com sucesso
-				}
-
+			if($stmt->execute()) {
+			$stmt->close();
+			$db_conn->close();
+			echo '<script>window.location="painel_list_user.php?lista=1&pagina=1";</script>';
+			return true; // Execução com sucesso
+			}
 		$stmt->error;
 		$stmt->errno;
 		$stmt->close();
@@ -172,27 +266,26 @@ ini_set('display_errors', 1);
 		return false; // Falha na execução
 		}
 
-	public function login($Login, $Password){
+
+		public function login($Login, $Password){
 
 			include("dbconnect.php");
 
-			echo $Login, $Password;
-
-			$query = "SELECT cd_pessoa, nm_nome, cd_rg, cd_cpf, cd_telefone, ds_endereco, vl_salario, cd_adm, cd_login, cd_senha FROM Pessoa WHERE cd_login = ? AND cd_senha = ?";
+			$query = "SELECT nm_nome, cd_rg, cd_cpf, cd_telefone, ds_endereco, vl_salario, cd_adm, cd_login, cd_senha FROM Pessoa WHERE cd_login = ? AND cd_senha = ?";
 
 			$stmt = $db_conn->prepare($query);
     		$stmt->bind_param("ss", $Login, $Password);
 
     		if($stmt->execute()) {
-			    // GUARDANDO RESULTADO
-			    $stmt->store_result();
-			    $stmt->bind_result($cd_pessoa, $nm_nome, $cd_rg, $cd_cpf, $cd_telefone, $ds_endereco, $vl_salario, $cd_adm, $cd_login, $cd_senha);
-				}
+			// GUARDANDO RESULTADO
+			$stmt->store_result();
+			$stmt->bind_result($nm_nome, $cd_rg, $cd_cpf, $cd_telefone, $ds_endereco, $vl_salario, $cd_adm, $cd_login, $cd_senha);
+			}
 
-				$numrows = $stmt->num_rows;
-				echo $numrows;
-				if($numrows == 1){
-				echo "Usuário encontrado";
+			$numrows = $stmt->num_rows;
+			echo $numrows;
+			if($numrows == 1){
+			echo "Usuário encontrado";
 			
 			while($stmt->fetch()){
 				// INSTANCIANDO OBJETO - PESSOA
@@ -211,17 +304,17 @@ ini_set('display_errors', 1);
 				$_SESSION["Telefone"] = $cd_telefone;
 				$_SESSION["Endereco"] = $ds_endereco;	
 				$_SESSION["Salario"] = $vl_salario;
-				setcookie ("Usuario", $cd_login, 3600); 	$_SESSION["Usuario"] = $cd_login;	
-				setcookie ("Senha", $cd_senha, 3600);  	$_SESSION["Senha"] = $cd_senha;
+				setcookie ("Usuario", $cd_login, time() + 3600); 	$_SESSION["Usuario"] = $cd_login;	
+				setcookie ("Senha", $cd_senha, time() + 3600);  	$_SESSION["Senha"] = $cd_senha;
 				$_SESSION["RG"] = $cd_rg;
 				$_SESSION["Cpf"] = $cd_cpf;
 				$_SESSION["Adm"] = $cd_adm;
-    			}
+    		}
 
-    			if($this->Auth($_SESSION['Adm']) == true){
-    				echo "Acesso concedido - redirecionando para painel administrativo";
-	    			echo '<script>window.location="painel.php";</script>';
-    			}
+    		if($this->Auth(isset($_SESSION['Adm'])) == true){
+    		echo "Acesso concedido - redirecionando para painel administrativo";
+	    	echo '<script>window.location="painel.php";</script>';
+    		}
 
 	    	return true;
 			}
@@ -229,23 +322,30 @@ ini_set('display_errors', 1);
 		return false;
 		}
 
-	public function Auth($Admin){
+
+		public function auth($Admin){
 
 	    	if ($Admin == 1){
 			return true; // Execução com sucesso
-	    	} else {
+	    	} elseif ($Admin == 0) {
 			echo "Acesso negado, sendo redirecionado";
-	        echo '<script>window.location="index.html";</script>'; // >>>>>>>>> TROCAR PARA VENDAS.HTML <<<<<<<<<<
+		    echo '<script>window.location="index.html";</script>'; // Trocar para vendas.html
 			return false;
+			} else {
+			echo "Acesso negado, sendo redirecionado";
+		    echo '<script>window.location="index.html";</script>';
+	        return false;
 			}
 		}
 
-	public function Logout(){
-        setcookie ("Usuario", $_SESSION["Usuario"], -3600);
-		setcookie ("Senha", $_SESSION["Senha"], -3600);
-		session_destroy();
-	    echo '<script>window.location="index.html";</script>';
-	    exit;
+
+		public function logout(){
+
+	        setcookie ("Usuario", $_SESSION["Usuario"], time() -3600);
+			setcookie ("Senha", $_SESSION["Senha"], time() - 3600);
+			session_destroy();
+		    echo '<script>window.location="index.html";</script>';
+		exit;
 		}
 	}
 ?>

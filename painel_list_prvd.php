@@ -17,21 +17,49 @@
   <link rel="stylesheet" href="css/style.css">
   <link rel="stylesheet" href="css/menu.css">
   
+  <style>
+      .wrap {
+      width: 47.3%;
+      margin-bottom: 15px;
+    }
+
+    .custom-select {
+      border: 1px solid #CCC;
+      border-radius: 6px;
+      -moz-appearance: none;
+      -webkit-appearance: none;
+      cursor: pointer;
+      display: inline-block;
+      margin: 0 auto;
+      padding: 10px;
+      width: 100%;
+      height: 48px;
+      font-size: 18px;
+
+      line-height: 1.3333333;
+
+    }
+
+    @media screen and (-webkit-min-device-pixel-ratio: 0) {
+      .custom-select {
+        background: #FFFFFF url(https://s3-us-west-2.amazonaws.com/s.cdpn.io/392/select-arrow.png) 95% 50% no-repeat;
+      }
+    }
+  </style>
 </head>
 
 
 <body>
 <?php 
 include("modalincludes.php");
-include("fornmodal/update_forn.php");
-include("fornmodal/delete_forn.php");
 
 include("view/navbar.php"); 
 include("view/menu.php"); 
 include("view/content.php");
 
+
 ?>
-    <div class="modal fade" id="update_forn" style="margin-top:50px;" role="dialog">
+    <div class="modal fade" id="update_user" style="margin-top:50px;" role="dialog">
       <div class="modal-dialog">
         <div class="modal-content">
         </div>
@@ -40,34 +68,36 @@ include("view/content.php");
   
 
   <script src='http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>
-  <script src="js/bootstrap.min.js"></script>
   <script src='http://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.11.2/jquery-ui.min.js'></script>
+  <script src="js/bootstrap.min.js"></script>
+
   <script src='http://cdnjs.cloudflare.com/ajax/libs/raphael/2.1.0/raphael-min.js'></script>
   <script src='http://cdnjs.cloudflare.com/ajax/libs/morris.js/0.5.1/morris.min.js'></script>
 
 
-    <!-- AJAX UPDATE --> 
+
+      <!-- AJAX UPDATE --> 
     <script type="text/javascript">
     $('.modalLink').click(function(){
-        var cd_forn= $(this).attr('data-id');
+        var cd_pessoa= $(this).attr('data-id');
         $.ajax({
-          url:"fornmodal/update_forn.php?cd_forn="+cd_forn,
+          url:"usermodal/update_user.php?cd_pessoa=" + cd_pessoa,
           cache:false,
-          success:function(result){
-            $("#update_forn").html(result);
-            $("#update_forn").modal("show");
+          success: function(result){
+            $("#update_user").html(result);
+            $("#update_user").modal("show");
           }});
     });
     </script>
 
-    <!-- JAVASCRIPT DELETE -->
+    <!-- JAVASCRIPT DELETE--> 
     <script type="text/javascript">
         function confirm_modal(delete_url)
         {
-          $('#delete_forn').modal('show', {backdrop: 'static'});
+          $('#delete_user').modal('show', {backdrop: 'static'});
           document.getElementById('delete_link').setAttribute('href', delete_url);
         }
     </script>
-  
+
 </body>
 </html>

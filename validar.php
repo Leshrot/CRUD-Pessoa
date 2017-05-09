@@ -3,11 +3,11 @@ session_start();
 
     # INSTANCIANDO PESSOA
     require_once("classes/pessoa.php");
-    $Pessoa = new Pessoa();
+    $pessoa = new pessoa();
     
 	# RECEBENDO DADOS DO LOGIN
     if (isset($_POST["Logar"])) { 
-	$Login=$_POST["Login"];
+	$Login=$_POST["User"];
 	$Senha=$_POST["Password"];
 
 	$Pessoa->login($Login,$Senha);

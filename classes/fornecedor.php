@@ -23,7 +23,7 @@ ini_set('display_errors', 1);
 			
             }
 
-		# cd_fornecedor, cd_cnpj_fornecedor, nm_fornecedor, ds_endereco_fornecedor, cd_tel_fornecedor, ds_email
+		// CAMPOS DA TABELA: cd_fornecedor, cd_cnpj_fornecedor, nm_fornecedor, ds_endereco_fornecedor, cd_tel_fornecedor, ds_email
 
 		public function __get($atributo)
 		{
@@ -36,7 +36,6 @@ ini_set('display_errors', 1);
 		}
 
 
-		// INSERE TODAS AS COLUNAS DA TABELA FORNECEDOR
 		public function insert($InputCnpj, $InputNome, $InputEndereco, $InputTelefone, $InputEmail){
 
 			include("dbconnect.php");
@@ -53,7 +52,7 @@ ini_set('display_errors', 1);
 				$this->Telefone = $InputTelefone;
 				$this->Email = $InputEmail;
 
-			echo '<script>window.location="painel_list_forn.php?lista=2";</script>';
+			echo '<script>window.location="painel_list_forn.php?lista=2&pagina=1";</script>';
 			$stmt->close();
 			$db_conn->close();
 			return true; // Execução com sucesso
@@ -65,26 +64,57 @@ ini_set('display_errors', 1);
         return false; // Erro na execução
         }
 
-		// CONSULTA E EXIBE TODAS AS LINHAS DA TABELA FORNECEDOR
-        public function select(){
+        public function getNumrows($Id, $Nome, $Cnpj){
 
-			include("dbconnect.php");
+        	include("dbconnect.php");
 
-        	$query = "SELECT * FROM Fornecedor";
+        	$query = "SELECT cd_fornecedor, cd_cnpj_fornecedor, nm_fornecedor, ds_endereco_fornecedor, cd_tel_fornecedor, ds_email FROM Fornecedor 
+        	WHERE cd_fornecedor LIKE ? OR
+        	      nm_fornecedor LIKE ? OR
+        	      cd_cnpj_fornecedor LIKE ?
+        	"; 
 
         	$stmt = $db_conn->prepare($query);
+        	$stmt->bind_param("isi", $Id, $Nome, $Cnpj);
         	if($stmt->execute()) {
         		$stmt->bind_result($cd_forn, $cnpj_forn, $nome_forn, $endereco_forn, $tel_forn, $email_forn);
 
-				// EXIBE PESSOA
-        		while($stmt->fetch()) {
+			while($stmt->fetch()) {
+        	}
+
+			$numrows = $stmt->num_rows;
+			return $numrows; // Execução com sucesso
+			}
+		$stmt->error;
+		$stmt->errno;
+		$stmt->close();
+		$db_conn->close();
+		return false; // Falha na execução
+		}
+
+        public function search($Id, $Nome, $Cnpj){
+
+        	include("dbconnect.php");
+
+        	$query = "SELECT cd_fornecedor, cd_cnpj_fornecedor, nm_fornecedor, ds_endereco_fornecedor, cd_tel_fornecedor, ds_email FROM Fornecedor 
+        	WHERE cd_fornecedor LIKE ? OR
+        	      nm_fornecedor LIKE ? OR
+        	      cd_cnpj_fornecedor LIKE ?
+        	"; 
+
+        	$stmt = $db_conn->prepare($query);
+        	$stmt->bind_param("isi", $Id, $Nome, $Cnpj);
+        	if($stmt->execute()) {
+        		$stmt->bind_result($cd_forn, $cnpj_forn, $nome_forn, $endereco_forn, $tel_forn, $email_forn);
+
+				    while($stmt->fetch()) {
         			printf("<tr>");
         			printf("<td>" .
         				$cd_forn
         				. "</td><td>" . 
-        				$cnpj_forn
-        				. "</td><td>" . 
         				$nome_forn
+        				. "</td><td>" . 
+        				$cnpj_forn
         				. "</td><td>" . 
         				$endereco_forn
         				. "</td><td>" . 
@@ -92,11 +122,72 @@ ini_set('display_errors', 1);
         				. "</td><td>" . 
         				$email_forn
         				. "</td><td>" .
-        				"<button onclick="."confirm_modal('deletar.php?cd_forn=".$cd_forn."')> APAGAR </button>"
-        				. " | " .
-        				"<button href='#update_forn' data-id=".$cd_forn." data-toggle='modal' data-target='#update_forn' class='modalLink'> ALTERAR </button>"
-        				);
+        				"<a class='btn btn-success modalLink' href='#update_forn' data-id=".$cd_forn." data-toggle='modal'data-target='#update_forn'><em class='fa fa-pencil'></em></a>
+        				<a class='btn btn-danger' onclick="."confirm_modal('deletar.php?cd_forn=".$cd_forn."')><em class='fa fa-trash'></em></a>
+        				<a class='btn btn-info'><em class='fa fa-eye' aria-hidden='true'></em></a>");
+        			printf("</td>");
+        			printf("</tr>");
+        			}
+        	$stmt->close();
+        	$db_conn->close();
+			return true; // Execução com sucesso
+			}
+		$stmt->error;
+		$stmt->errno;
+		$stmt->close();
+		$db_conn->close();
+		return false; // Falha na execução
+		}
+
+
+        public function pageselect($Pagina){
+        	
+        	if($Pagina == 1) {
+        		$this->select(0, 20);
+        	} elseif($Pagina == 2) {
+        		$this->select(20, 40);
+        	} elseif($Pagina == 3) {
+        		$this->select(40, 60);
+			} elseif($Pagina == 4) {
+				$this->select(60, 80);
+			} elseif($Pagina == 5) {
+				$this->select(80, 100);
+			} elseif($Pagina == 6) {
+				$this->select(100, 120);
+			}
+        }
+
+        public function select($offset, $limit){
+
+			include("dbconnect.php");
+
+        	$query = "SELECT * FROM Fornecedor LIMIT ?, ?";
+
+        	$stmt = $db_conn->prepare($query);
+        	$stmt->bind_param("ii", $offset, $limit);
+        	if($stmt->execute()) {
+        		$stmt->bind_result($cd_forn, $cnpj_forn, $nome_forn, $endereco_forn, $tel_forn, $email_forn);
+
+        		while($stmt->fetch()) {
         			printf("<tr>");
+        			printf("<td>" .
+        				$cd_forn
+        				. "</td><td>" . 
+        				$nome_forn
+        				. "</td><td>" . 
+        				$cnpj_forn
+        				. "</td><td>" . 
+        				$endereco_forn
+        				. "</td><td>" . 
+        				$tel_forn
+        				. "</td><td>" . 
+        				$email_forn
+        				. "</td><td>" .
+        				"<a class='btn btn-success modalLink' href='#update_forn' data-id=".$cd_forn." data-toggle='modal'data-target='#update_forn'><em class='fa fa-pencil'></em></a>
+        				<a class='btn btn-danger' onclick="."confirm_modal('deletar.php?cd_forn=".$cd_forn."')><em class='fa fa-trash'></em></a>
+        				<a class='btn btn-info'><em class='fa fa-eye' aria-hidden='true'></em></a>");
+        			printf("</td>");
+        			printf("</tr>");
         			}
         	$stmt->close();
         	$db_conn->close();
@@ -109,8 +200,7 @@ ini_set('display_errors', 1);
 		return false; // Erro na execução
 		}       
 
-		// ALTERA DADOS DA LINHA SELECIONADA
-	public function update($InputCnpj, $InputNome, $InputEndereco, $InputTelefone, $InputEmail, $InputCd){
+		public function update($InputCnpj, $InputNome, $InputEndereco, $InputTelefone, $InputEmail, $InputCd){
 
 			include("dbconnect.php");
 
@@ -121,12 +211,11 @@ ini_set('display_errors', 1);
 			$stmt->bind_param("issisi", $InputCnpj, $InputNome, $InputEndereco, $InputTelefone, $InputEmail, $InputCd);
 
 			if($stmt->execute()) {
-				$stmt->close();
-				$db_conn->close();
-				echo '<script>window.location="painel_list_forn.php?lista=2";</script>';
+			$stmt->close();
+			$db_conn->close();
+			echo '<script>window.location="painel_list_forn.php?lista=2&pagina=1";</script>';
 			return true; // Execução com sucesso
 			}
-
 		$stmt->error;
 		$stmt->errno;
 		$stmt->close();
@@ -144,12 +233,11 @@ ini_set('display_errors', 1);
 			$stmt->bind_param("i", $Id);
 
 			if($stmt->execute()) {
-				$stmt->close();
-				$db_conn->close();
-				echo '<script>window.location="painel_list_forn.php?lista=2";</script>';
+			$stmt->close();
+			$db_conn->close();
+			echo '<script>window.location="painel_list_forn.php?lista=2&pagina=1";</script>';
 			return true; // Execução com sucesso
 			}
-
 		$stmt->error;
 		$stmt->errno;
 		$stmt->close();

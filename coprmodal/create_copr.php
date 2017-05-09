@@ -1,0 +1,68 @@
+<div class="modal fade" id="create_copr" style="margin-top:50px;" role="dialog">
+    <div class="modal-dialog">
+    <div class="modal-content">
+
+    <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Cadastrar Compra</h4>
+    </div>
+
+        <div class="modal-body">
+            <div class="wrap">
+                <select name="Compra" form="CreateCompraProduto" class="custom-select form-control">
+                    <?php
+
+                    include("dbconnect.php");
+
+                    $query = "SELECT cd_compra, Fornecedor_cd_fornecedor FROM Compra";
+
+                    $stmt = $db_conn->prepare($query);
+                    if($stmt->execute()) {
+                        $stmt->bind_result($cd_compra, $cd_forn);
+
+                        while($stmt->fetch()) {
+                        printf("<option value=". $cd_compra .">". $cd_compra ."</option>");
+                        /*printf("<input type='hidden' name='qtd_prod'
+                        value=".$cd_forn."/>");*/
+                        } 
+                    }
+                    ?>
+                </select>
+            </div>
+            <div class="wrap">
+                <select name="Produto" form="CreateCompraProduto" class="custom-select form-control">
+                    <?php
+
+                    $query = "SELECT cd_produto, qt_produto, nm_produto FROM Produto";
+
+                    $stmt = $db_conn->prepare($query);
+                    if($stmt->execute()) {
+                        $stmt->bind_result($cd_prod, $qtd_prod, $nm_prod);
+
+                        while($stmt->fetch()) {
+                        printf("<option value=". $cd_prod .">". $nm_prod ."</option>");
+                        /*printf("<input type='hidden' name='qtd_prod'
+                        value=".$qtd_prod."/>");
+                        printf("<input type='hidden' name='nome_prod'
+                        value=".$nm_prod."/>");*/
+                        } 
+                    }
+                    ?>
+                </select>
+            </div>
+        <form name="CreateCompraProduto" id="CreateCompraProduto" method='post'>
+            <div class="row Prod">
+                <div class="col-md-6">
+                    <button type="submit" name="CreateCopr" class="btn btn-success btn-lg btn-block" value="CreateCopr"><span class="glyphicon glyphicon-ok"></span> Cadastrar </button>
+                </div>
+            </div>
+
+            <?php
+            include_once("cadastrar.php");
+            ?>
+
+        </form>
+        </div>
+    </div>
+    </div>
+</div>
