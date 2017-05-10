@@ -1,4 +1,4 @@
-<div class="modal fade" id="create_user"  role="dialog">
+<div class="modal fade" id="create_user" style="margin-top:50px;" role="dialog">
     <div class="modal-dialog">
     <div class="modal-content">
 
@@ -7,11 +7,12 @@
         <h4 class="modal-title">Criar Usuário</h4>
     </div>
 <!-- CRIAÇAO DE USUARIO -->
+
         <div class="modal-body">
 
         <form name="CreatePessoa" id="CreatePessoa" method='post'>
             <div class="row Pessoa">
-                <div class="col-md-6">
+                <center>
                     
                     <div class="form-group">
                         <input type="text" 
@@ -74,17 +75,19 @@
                     </div>
 
                     <div class="checkbox">
-                        <label>
-                            <input type="checkbox" name="Adm">Administrador
+                        <label class="control control--checkbox">
+                        Administrador:
+                            <input type="checkbox" name="Adm">
+                            <div class="control__indicator"></div>
                         </label>
                     </div>
 
-                    <button type="submit" name="CreateUser" class="btn btn-success btn-lg btn-block" value="CreateUser"><span class="glyphicon glyphicon-ok"></span> Criar </button>
-                </div>
+                    <button type="submit" name="CreateUser" class="btn btn-create btn-lg btn-block" value="CreateUser"><span class="glyphicon glyphicon-ok"></span> Criar </button>
+               </center>
             </div>
-
+            
             <?php
-            include("cadastrar.php");
+            include_once("cadastrar.php");
             ?>
 
         </form>

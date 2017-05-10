@@ -8,8 +8,11 @@ ini_set('display_errors', 1);
     # INSTANCIANDO FORNECEDOR
     require_once("classes/fornecedor.php");
     $fornecedor = new fornecedor();
+    // INSTANCIANDO PRODUTO
+    require_once("classes/produto.php");
+    $produto = new produto();
 
-    # RECEBENDO VALORES DO FORMULARIO 
+    // RECEBENDO VALORES DO FORMULARIO 
 	if (isset($_POST["UpdateUser"])) {
         $Id = $_POST['AltId'];
         $Nome = $_POST['AltNome'];
@@ -25,7 +28,7 @@ ini_set('display_errors', 1);
     $pessoa->update($Nome, $Telefone, $Endereco, $Salario, $Login, $Senha, $RG, $Cpf, $Adm, $Id);
     }
 
-     # RECEBENDO VALORES DO FORMULÁRIO USUARIO
+    // RECEBENDO VALORES DO FORMULÁRIO USUARIO
     if (isset($_POST["UpdateForn"])) { 
         $Id = $_POST['AltId'];
         $NomeForn = $_POST['AltNome'];
@@ -35,8 +38,23 @@ ini_set('display_errors', 1);
         $EmailForn = $_POST['AltEmail'];
     }
 
-    if (isset($CnpjForn)){
-    $fornecedor->update($CnpjForn, $NomeForn, $EnderecoForn, $TelForn, $EmailForn, $Id);
+        if (isset($CnpjForn)){
+        $fornecedor->update($CnpjForn, $NomeForn, $EnderecoForn, $TelForn, $EmailForn, $Id);
+        }
+
+        // RECEBENDO VALORES DO FORMULÁRIO PRODUTO
+    if (isset($_POST["UpdateProd"])) { 
+        $Id = $_POST['AltId'];
+        $NomeProd = $_POST['AltNome'];
+        $CodBarra = $_POST['AltCodBarra'];
+        $DescProd= $_POST['AltDescricao'];
+        $QtdProd = $_POST['AltQuantidade'];
+        $ValorProd = $_POST['AltValor'];
+        $CategoriaProd = $_POST['AltCategoria'];
     }
+
+        if (isset($CodBarra)){
+            $produto->update($NomeProd, $CodBarra, $DescProd, $QtdProd, $ValorProd, $CategoriaProd, $Id);
+        }
 
 ?>

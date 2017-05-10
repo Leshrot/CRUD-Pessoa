@@ -1,11 +1,12 @@
 <?php
-session_start();
-
 echo $_SESSION["Adm"];
 
-    # INSTANCIANDO PESSOA
+    // INSTANCIANDO PESSOA
     require_once("classes/pessoa.php");
     $pessoa = new pessoa();
 
-	$pessoa->auth($_SESSION["Adm"]);
+
+	if($pessoa->auth(isset($Adm)) == true ){
+		echo "Bem vindo ao painel administrativo.";
+	}
 ?>
