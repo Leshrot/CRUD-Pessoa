@@ -1,4 +1,4 @@
-<div class="modal fade" id="create_forn"  role="dialog">
+<div class="modal fade" id="create_forn" style="margin-top:50px;" role="dialog">
     <div class="modal-dialog">
     <div class="modal-content">
 
@@ -11,7 +11,7 @@
 
         <form name="formFornecedor" id="formFornecedor" method='post'>
             <div class="row Pessoa">
-                <div class="col-md-6">
+                <center>
 
                     <div class="form-group">
                         <input type="text"
@@ -50,12 +50,12 @@
                          name="Email" />
                     </div>
 
-                    <button type="submit" name="CreateForn" class="btn btn-success btn-lg btn-block" value="CreateForn"><span class="glyphicon glyphicon-ok"></span> Criar </button>
+                    <button type="submit" name="CreateForn" class="btn btn-create btn-lg btn-block" value="CreateForn"><span class="glyphicon glyphicon-ok"></span> Criar </button>
                 </div>
-            </div>
-
+            </center>
+            
             <?php
-            include("cadastrar.php");
+            include_once("cadastrar.php");
             ?>
 
         </form>

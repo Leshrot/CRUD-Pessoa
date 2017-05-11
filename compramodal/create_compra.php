@@ -33,7 +33,6 @@
         <form name="CreateCompras" id="CreateCompras" method='post'>
             <center>
             <div class="Prod">
-                
                     
                     <div class="form-group">
                         <input type="text" 

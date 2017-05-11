@@ -12,7 +12,7 @@ $query = "SELECT * FROM Fornecedor
 $stmt = $db_conn->prepare($query);
 $stmt->bind_param("i", $Id);
 $stmt->execute();
-$stmt->bind_result($cd_forn, $cnpj_forn, $nome_forn, $endereco_forn, $tel_forn, $email_forn);
+$stmt->bind_result($cd_produto, $nm_produto, $cd_codbarra, $ds_produto, $qt_produto, $vl_produto, $ds_categoria);
 
 // EXIBE PESSOA
 while($stmt->fetch()) {
@@ -31,7 +31,7 @@ while($stmt->fetch()) {
         <div class="modal-body">
         <form name="UpdateFornecedor" id="UpdateFornecedor" action='alterar.php' method='post'>
             <div class="row Pessoa">
-                <div class="col-md-6">
+                <center>
 
                     <input type="hidden" name="AltId" value="<?= $cd_forn; ?>" required />
                      
@@ -77,9 +77,9 @@ while($stmt->fetch()) {
                         value="<?= $email_forn; ?>" />
                     </div>
 
-                    <button type="submit" name="UpdateForn" class="btn btn-success btn-lg btn-block" value="UpdateForn"><span class="glyphicon glyphicon-ok"></span> Criar 
+                    <button type="submit" name="UpdateForn" class="btn btn-create btn-lg btn-block" value="UpdateForn"><span class="glyphicon glyphicon-ok"></span> Criar 
                     </button>
-                </div>
+                </center>
             </div>
 
         </form>

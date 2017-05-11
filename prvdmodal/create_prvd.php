@@ -34,11 +34,11 @@
                 <select name="Produto" form="CreateProdutoVenda" class="custom-select form-control">
                     <?php
 
-                    $query = "SELECT cd_produto, qt_produto, nm_produto FROM Produto";
+                    $query = "SELECT cd_produto, nm_produto FROM Produto";
 
                     $stmt = $db_conn->prepare($query);
                     if($stmt->execute()) {
-                        $stmt->bind_result($cd_prod, $qtd_prod, $nm_prod);
+                        $stmt->bind_result($cd_prod, $nm_prod);
 
                         while($stmt->fetch()) {
                         printf("<option value=". $cd_prod .">". $nm_prod ."</option>");

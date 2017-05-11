@@ -31,7 +31,7 @@ while($stmt->fetch()) {
         <div class="modal-body">
         <form name="UpdateProduto" id="UpdateProduto" action='alterar.php' method='post'>
             <div class="row Prod">
-                <div class="col-md-6">
+                <center>
 
                     <input type="hidden" name="AltId" value="<?= $cd_produto; ?>" required />
                     
@@ -85,8 +85,8 @@ while($stmt->fetch()) {
                         value="<?= $ds_categoria; ?>" />
                     </div>
 
-                    <button type="submit" name="UpdateProd" class="btn btn-success btn-lg btn-block" value="UpdateProd"><span class="glyphicon glyphicon-ok"></span> Cadastrar </button>
-                </div>
+                    <button type="submit" name="UpdateProd" class="btn btn-create btn-lg btn-block" value="UpdateProd"><span class="glyphicon glyphicon-ok"></span> Cadastrar </button>
+                </center>
             </div>
 
         </form>
