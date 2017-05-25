@@ -33,12 +33,14 @@
         <form name="CreateCompras" id="CreateCompras" method='post'>
             <center>
             <div class="Prod">
-                    
+                    <?php if (1 == 1){
+                        ?>
                     <div class="form-group">
-                        <input type="text" 
+                        <input type="hidden" 
                         class="form-control input-lg"
                         placeholder="Data" 
                         name="Data" 
+                        value="<?= date('Y/m/d', time()); ?>"
                         required />
                     </div>
 
@@ -55,6 +57,7 @@
             </center>
 
             <?php
+            }
             include_once("cadastrar.php");
             ?>
 

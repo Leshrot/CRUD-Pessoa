@@ -54,7 +54,7 @@ if(isset($_GET['cd_compra'])){
                     <input type="hidden" name="AltId" value="<?= $Id; ?>" required />
                     
                     <div class="form-group">
-                        <input type="text" 
+                        <input type="hidden" 
                         class="form-control input-lg"
                         placeholder="Data" 
                         name="AltData"
